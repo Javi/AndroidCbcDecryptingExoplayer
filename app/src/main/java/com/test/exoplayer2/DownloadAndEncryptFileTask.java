@@ -19,57 +19,57 @@ import javax.crypto.CipherOutputStream;
 
 public class DownloadAndEncryptFileTask extends AsyncTask<Void, Void, Void> {
 
-  private String mUrl;
-  private File mFile;
-  private Cipher mCipher;
+    private String mUrl;
+    private File mFile;
+    private Cipher mCipher;
 
-  public DownloadAndEncryptFileTask(String url, File file, Cipher cipher) {
-    if (url == null || url.isEmpty()) {
-      throw new IllegalArgumentException("You need to supply a url to a clear MP4 file to download and encrypt, or modify the code to use a local encrypted mp4");
-    }
-    mUrl = url;
-    mFile = file;
-    mCipher = cipher;
-  }
-
-  private void downloadAndEncrypt() throws Exception {
-
-    URL url = new URL(mUrl);
-    HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-    connection.connect();
-
-    if (connection.getResponseCode() != HttpURLConnection.HTTP_OK) {
-      throw new IOException("server error: " + connection.getResponseCode() + ", " + connection.getResponseMessage());
+    public DownloadAndEncryptFileTask(String url, File file, Cipher cipher) {
+        if (url == null || url.isEmpty()) {
+            throw new IllegalArgumentException("You need to supply a url to a clear MP4 file to download and encrypt, or modify the code to use a local encrypted mp4");
+        }
+        mUrl = url;
+        mFile = file;
+        mCipher = cipher;
     }
 
-    InputStream inputStream = connection.getInputStream();
-    FileOutputStream fileOutputStream = new FileOutputStream(mFile);
-    CipherOutputStream cipherOutputStream = new CipherOutputStream(fileOutputStream, mCipher);
+    private void downloadAndEncrypt() throws Exception {
 
-    byte buffer[] = new byte[1024 * 1024];
-    int bytesRead;
-    while ((bytesRead = inputStream.read(buffer)) != -1) {
-      Log.d(getClass().getCanonicalName(), "reading from http...");
-      cipherOutputStream.write(buffer, 0, bytesRead);
+        URL url = new URL(mUrl);
+        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+        connection.connect();
+
+        if (connection.getResponseCode() != HttpURLConnection.HTTP_OK) {
+            throw new IOException("server error: " + connection.getResponseCode() + ", " + connection.getResponseMessage());
+        }
+
+        InputStream inputStream = connection.getInputStream();
+        FileOutputStream fileOutputStream = new FileOutputStream(mFile);
+        CipherOutputStream cipherOutputStream = new CipherOutputStream(fileOutputStream, mCipher);
+
+        byte buffer[] = new byte[1024 * 1024];
+        int bytesRead;
+        while ((bytesRead = inputStream.read(buffer)) != -1) {
+            Log.d(getClass().getCanonicalName(), "reading from http...");
+            cipherOutputStream.write(buffer, 0, bytesRead);
+        }
+
+        inputStream.close();
+        cipherOutputStream.close();
+        connection.disconnect();
     }
 
-    inputStream.close();
-    cipherOutputStream.close();
-    connection.disconnect();
-  }
-
-  @Override
-  protected Void doInBackground(Void... params) {
-    try {
-      downloadAndEncrypt();
-    } catch (Exception e) {
-      e.printStackTrace();
+    @Override
+    protected Void doInBackground(Void... params) {
+        try {
+            downloadAndEncrypt();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
-    return null;
-  }
 
-  @Override
-  protected void onPostExecute(Void aVoid) {
-    Log.d(getClass().getCanonicalName(), "done");
-  }
+    @Override
+    protected void onPostExecute(Void aVoid) {
+        Log.d(getClass().getCanonicalName(), "done");
+    }
 }
