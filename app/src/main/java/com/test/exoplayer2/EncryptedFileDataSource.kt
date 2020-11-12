@@ -91,12 +91,12 @@ class EncryptedFileDataSource(
     override fun read(buffer: ByteArray, offset: Int, readLength: Int): Int {
         // Log.e(TAG, "DataSource read - length: $readLength")
         // fast-fail if there's 0 quantity requested or we think we've already processed everything
-        if (readLength == 0) {
-            return 0
-        } else if (mBytesRemaining == 0L) {
-            Log.e(TAG, "End - No bytes remaining")
-            return C.RESULT_END_OF_INPUT
-        }
+        // if (readLength == 0) {
+        //     return 0
+        // } else if (mBytesRemaining == 0L) {
+        //     Log.e(TAG, "End - No bytes remaining")
+        //     return C.RESULT_END_OF_INPUT
+        // }
         // constrain the read length and try to read from the cipher input stream
         val bytesToRead = getBytesToRead(readLength)
         // Log.e(TAG, "DataSource read - toRead: $bytesToRead")

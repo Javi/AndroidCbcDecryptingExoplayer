@@ -4,6 +4,7 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -42,7 +43,8 @@ public class DownloadAndEncryptFileTask extends AsyncTask<Void, Void, Void> {
             throw new IOException("server error: " + connection.getResponseCode() + ", " + connection.getResponseMessage());
         }
 
-        InputStream inputStream = connection.getInputStream();
+        InputStream inputStream = new FileInputStream(new File("/data/data/com.test.exoplayer2/files/Preguntas y respuestas =D (clase0).mp4"));
+//        InputStream inputStream = connection.getInputStream();
         FileOutputStream fileOutputStream = new FileOutputStream(mFile);
         CipherOutputStream cipherOutputStream = new CipherOutputStream(fileOutputStream, mCipher);
 

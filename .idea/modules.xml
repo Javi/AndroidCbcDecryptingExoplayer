@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/EncryptedExoPlayerDemo.iml" filepath="$PROJECT_DIR$/.idea/modules/EncryptedExoPlayerDemo.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/EncryptedExoPlayerDemo.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/EncryptedExoPlayerDemo.app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/AndroidCbcDecryptingExoplayer.iml" filepath="$PROJECT_DIR$/.idea/AndroidCbcDecryptingExoplayer.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/AndroidCbcDecryptingExoplayer.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/AndroidCbcDecryptingExoplayer.app.iml" />
     </modules>
   </component>
 </project>
