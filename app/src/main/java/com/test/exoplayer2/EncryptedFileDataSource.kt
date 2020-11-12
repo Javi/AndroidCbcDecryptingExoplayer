@@ -57,7 +57,7 @@ class EncryptedFileDataSource(
         // notify
         // mTransferListener.onTransferStart(this, dataSpec)
         // report
-        return mInputStream!!.available().toLong()
+        return C.LENGTH_UNSET.toLong()
     }
 
     @Throws(FileNotFoundException::class)
@@ -108,7 +108,7 @@ class EncryptedFileDataSource(
             throw EncryptedFileDataSourceException(e)
         }
         // if we get a -1 that means we failed to read - we're either going to EOF error or broadcast EOF
-        if (bytesRead == -1) {
+        if (bytesRead < 0) {
             if (mBytesRemaining != C.LENGTH_UNSET.toLong()) {
                 throw EncryptedFileDataSourceException(EOFException())
             }
@@ -116,10 +116,8 @@ class EncryptedFileDataSource(
             return C.RESULT_END_OF_INPUT
         }
         // we can't decrement bytes remaining if it's just a flag representation (as opposed to a mutable numeric quantity)
-        if (mBytesRemaining != C.LENGTH_UNSET.toLong()) {
+        if (mBytesRemaining != C.LENGTH_UNSET.toLong())
             mBytesRemaining -= bytesRead.toLong()
-            if (mBytesRemaining < 10000) Log.e(TAG, "read - bytes remaining $mBytesRemaining")
-        }
         // notify
         // mTransferListener.onBytesTransferred(this, bytesRead)
         // report
@@ -203,6 +201,7 @@ class EncryptedFileDataSource(
                         mSecretKeySpec,
                         IvParameterSpec(ivFromPreviousBlock)
                     )
+                    skip(bytesUntilPreviousBlockStart + cipherBlockSize)
 
                     val discardByteArray = ByteArray(bytesSinceStartOfCurrentBlock.toInt())
                     read(discardByteArray)

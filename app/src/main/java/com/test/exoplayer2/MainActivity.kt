@@ -8,13 +8,11 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import com.google.android.exoplayer2.DefaultRenderersFactory
-import com.google.android.exoplayer2.DefaultRenderersFactory.ExtensionRendererMode
+import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.SimpleExoPlayer
 import com.google.android.exoplayer2.extractor.DefaultExtractorsFactory
 import com.google.android.exoplayer2.extractor.ExtractorsFactory
-import com.google.android.exoplayer2.source.ExtractorMediaSource
-import com.google.android.exoplayer2.source.MediaSource
+import com.google.android.exoplayer2.source.ProgressiveMediaSource
 import com.google.android.exoplayer2.ui.PlayerView
 import com.google.android.exoplayer2.upstream.DataSource
 import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter
@@ -59,8 +57,8 @@ class MainActivity : AppCompatActivity() {
             val encryptionCipher = Cipher.getInstance(AES_TRANSFORMATION)
             encryptionCipher.init(Cipher.ENCRYPT_MODE, mSecretKeySpec, mIvParameterSpec)
             DownloadAndEncryptFileTask(
-                // "https://www.learningcontainer.com/wp-content/uploads/2020/05/sample-mp4-file.mp4",
-                "https://file-examples-com.github.io/uploads/2017/04/file_example_MP4_480_1_5MG.mp4",
+                "https://www.learningcontainer.com/wp-content/uploads/2020/05/sample-mp4-file.mp4",
+                // "https://file-examples-com.github.io/uploads/2017/04/file_example_MP4_480_1_5MG.mp4",
                 mEncryptedFile,
                 encryptionCipher
             ).execute()
@@ -80,13 +78,14 @@ class MainActivity : AppCompatActivity() {
             mSecretKeySpec!!,
             bandwidthMeter
         )
-        val extractorsFactory: ExtractorsFactory = DefaultExtractorsFactory()
         try {
             val uri = Uri.fromFile(mEncryptedFile)
-            val videoSource: MediaSource =
-                ExtractorMediaSource(uri, dataSourceFactory, extractorsFactory, null, null)
-            player.setMediaSource(videoSource, true)
-            player.seekTo(5000)
+            val videoSource =
+                ProgressiveMediaSource.Factory(dataSourceFactory).createMediaSource(
+                    MediaItem.Builder().setUri(uri).build()
+                )
+            player.setMediaSource(videoSource)
+            // player.seekTo(28000)
             player.prepare()
             player.playWhenReady = true
         } catch (e: Exception) {
