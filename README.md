@@ -1,0 +1,1 @@
+This is a sample Android project showcasing how to encrypt and reproduce a video on demand, with seeking capabilities, with Exoplayer and using the AES/CBC/PKCS7Padding encryption algorithm.

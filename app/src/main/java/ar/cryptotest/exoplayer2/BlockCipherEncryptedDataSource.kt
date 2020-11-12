@@ -1,4 +1,4 @@
-package com.test.exoplayer2
+package ar.cryptotest.exoplayer2
 
 import android.net.Uri
 import android.util.Log
@@ -6,7 +6,7 @@ import com.google.android.exoplayer2.C
 import com.google.android.exoplayer2.upstream.DataSource
 import com.google.android.exoplayer2.upstream.DataSpec
 import com.google.android.exoplayer2.upstream.TransferListener
-import com.test.exoplayer2.MainActivity.Companion.AES_TRANSFORMATION
+import ar.cryptotest.exoplayer2.MainActivity.Companion.AES_TRANSFORMATION
 import java.io.EOFException
 import java.io.File
 import java.io.IOException

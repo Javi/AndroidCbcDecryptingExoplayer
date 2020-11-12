@@ -5,7 +5,7 @@ android {
     compileSdkVersion 30
     buildToolsVersion "30.0.2"
     defaultConfig {
-        applicationId "ar.cryptotest.exoplayer2"
+        applicationId "ar.cryptotest.ar.cryptotest.exoplayer2"
         minSdkVersion 26
         targetSdkVersion 30
         versionCode 1

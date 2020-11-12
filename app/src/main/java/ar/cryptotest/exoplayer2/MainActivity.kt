@@ -1,4 +1,4 @@
-package com.test.exoplayer2
+package ar.cryptotest.exoplayer2
 
 import android.net.Uri
 import android.os.Bundle
@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
+import ar.cryptotest.exoplayer2.exoplayer2.R
 import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.SimpleExoPlayer
 import com.google.android.exoplayer2.source.ProgressiveMediaSource
@@ -34,6 +35,8 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    //Used with 'onclick'
+    @Suppress("UNUSED_PARAMETER")
     fun encryptVideo(view: View) {
         lifecycleScope.launch {
             val encryptionCipher = Cipher.getInstance(AES_TRANSFORMATION)
