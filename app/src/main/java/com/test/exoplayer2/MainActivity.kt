@@ -58,7 +58,6 @@ class MainActivity : AppCompatActivity() {
                     MediaItem.Builder().setUri(uri).build()
                 )
             player.setMediaSource(videoSource)
-            // player.seekTo(28000)
             player.prepare()
             player.playWhenReady = true
         } catch (e: Exception) {
@@ -78,6 +77,13 @@ class MainActivity : AppCompatActivity() {
 
     private fun encryptFile(cipher: Cipher) {
         val unencryptedFile = File(filesDir, "unencrypted.mp4")
+
+        if (!unencryptedFile.exists()) {
+            unencryptedFile.outputStream().use {
+                assets.open("oliver.mp4").copyTo(it)
+            }
+        }
+
         encryptedFile.delete()
 
         unencryptedFile.inputStream().use { unencryptedFileInputStream ->
